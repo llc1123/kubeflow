@@ -1,5 +1,5 @@
 # Step 1: Builds and tests
-FROM node:16.20.2-bullseye AS build
+FROM node:22-bookworm AS build
 
 ARG kubeflowversion
 ARG commit
@@ -8,22 +8,25 @@ ENV BUILD_VERSION=$kubeflowversion
 ENV BUILD_COMMIT=$commit
 ENV CHROME_BIN=/usr/bin/chromium
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+ENV NODE_OPTIONS=--openssl-legacy-provider
 
 COPY . /centraldashboard
 WORKDIR /centraldashboard
 
 RUN npm ci \
- && npm run build \
- && npm prune --production
+  && npm run build \
+  && npm prune --production
 
 # Step 2: Packages assets for serving
-FROM node:16.20.2-alpine AS serve
+FROM node:22-alpine AS serve
+
 
 RUN apk add --no-cache tini
 
 USER node
 
 ENV NODE_ENV=production
+ENV NODE_OPTIONS=--openssl-legacy-provider
 WORKDIR /usr/src/app
 COPY --from=build --chown=node:node /centraldashboard .
 
