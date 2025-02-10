@@ -8,6 +8,7 @@ ENV BUILD_VERSION=$kubeflowversion
 ENV BUILD_COMMIT=$commit
 ENV CHROME_BIN=/usr/bin/chromium
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+ENV NODE_OPTIONS = "--openssl-legacy-provider"
 
 COPY . /centraldashboard
 WORKDIR /centraldashboard
@@ -24,6 +25,7 @@ RUN apk add --no-cache tini
 USER node
 
 ENV NODE_ENV=production
+ENV NODE_OPTIONS = "--openssl-legacy-provider"
 WORKDIR /usr/src/app
 COPY --from=build --chown=node:node /centraldashboard .
 
