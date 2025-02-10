@@ -1,5 +1,5 @@
 # Step 1: Builds and tests
-FROM node:16.20.2-bullseye AS build
+FROM node:18-bookworm AS build
 
 ARG kubeflowversion
 ARG commit
@@ -13,11 +13,11 @@ COPY . /centraldashboard
 WORKDIR /centraldashboard
 
 RUN npm ci \
- && npm run build \
- && npm prune --production
+  && npm run build \
+  && npm prune --production
 
 # Step 2: Packages assets for serving
-FROM node:16.20.2-alpine AS serve
+FROM node:18-alpine AS serve
 
 RUN apk add --no-cache tini
 
