@@ -20,6 +20,7 @@ RUN npm ci \
 # Step 2: Packages assets for serving
 FROM node:22-alpine AS serve
 
+
 RUN apk add --no-cache tini
 
 USER node
