@@ -36,7 +36,6 @@ docker-build-multi-arch: ##  Build multi-arch docker images with docker buildx
 	@echo buildVersion $(shell git describe --abbrev=0 --tags)
 	docker buildx build --load --platform ${ARCH} --tag ${IMG}:${TAG} -f ${DOCKERFILE} . --build-arg kubeflowversion=$(shell git describe --abbrev=0 --tags) --build-arg commit=$(COMMIT) --label=git-version=$(TAG)
 
-
 .PHONY: docker-build-push-multi-arch
 docker-build-push-multi-arch: ## Build multi-arch docker images with docker buildx and push to docker registry
 	@echo buildVersion $(shell git describe --abbrev=0 --tags)
