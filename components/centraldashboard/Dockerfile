@@ -1,5 +1,5 @@
 # Step 1: Builds and tests
-FROM node:20-bullseye AS build
+FROM node:22-bookworm AS build
 
 ARG kubeflowversion
 ARG commit
@@ -18,7 +18,7 @@ RUN npm ci \
   && npm prune --production
 
 # Step 2: Packages assets for serving
-FROM node:20-alpine AS serve
+FROM node:22-alpine AS serve
 
 RUN apk add --no-cache tini
 
